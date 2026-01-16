@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Acesso Manutenção</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 420px;
+      margin: 60px auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #0078D4;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005a9e;
+    }
+    .erro {
+      color: red;
+      display: none;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LOGIN -->
+  <div id="telaLogin">
+    <h2>Acesso Restrito</h2>
+    <p>Digite sua senha para acessar os formulários</p>
+
+    <input type="password" id="senha" placeholder="Senha">
+    <button onclick="validarSenha()">Entrar</button>
+
+    <p id="mensagemErro" class="erro">Senha inválida</p>
+  </div>
+
+  <!-- MENU -->
+  <div id="telaMenu" style="display:none;">
+    <h2>Selecione o equipamento</h2>
+
+      <button onclick="abrirFormulario('banheiro')">Banheiros</button>
+      <button onclick="abrirFormulario('bebedouro')">Bebedouros</button>
+      <button onclick="abrirFormulario('bombasdeagua')">Bombas D'agua</button>
+      <button onclick="abrirFormulario('bombasdevacuo')">Bombas de Vácuo</button>
+      <button onclick="abrirFormulario('chavesseccionadoras')">Chaves Seccionadoras</button>
+      <button onclick="abrirFormulario('compressor')">Compressores</button>
+      <button onclick="abrirFormulario('arcondicionado')">Ar-Condicionado / PMOC</button>
+      <button onclick="abrirFormulario('cortinadear')">Cortinas de Ar</button>
+      <button onclick="abrirFormulario('exaustor')">Exaustores</button>
+      <button onclick="abrirFormulario('geradores')">Geradores</button>
+      <button onclick="abrirFormulario('iluminacaodeemergencia')">Iluminação de Emergência</button>
+      <button onclick="abrirFormulario('pontodedescidaspda')">Ponto de descida SPDA</button>
+      <button onclick="abrirFormulario('portaodedoca')">Portão de Doca</button>
+      <button onclick="abrirFormulario('portaodeeclusa')">Portão de Eclusa</button>
+      <button onclick="abrirFormulario('quadrosepaineseletricos')">Quadros e Painéis Elétricos</button>
+      <button onclick="abrirFormulario('rampaniveladoradedoca')">Rampa niveladora de Doca</button>
+      <button onclick="abrirFormulario('reservatoriodear')">Reservatórios de Ar</button>
+      <button onclick="abrirFormulario('secadorsdear')">Secadores de Ar</button>
+      <button onclick="abrirFormulario('transformadoresaoleo')">Transformadores a Óleo</button>
+      <button onclick="abrirFormulario('transformadoresaseco')">Transformadores a Seco</button>
+      <button onclick="abrirFormulario('trocadordecalor')">Trocador de Calor</button>
+      <button onclick="abrirFormulario('ups')">UPS</button>
+      <button onclick="abrirFormulario('tomadasdesobreporemc')">Tomadas de Sobrepor EMC²</button>
+    </div>
+
+</div>
+
+<script>
+  /* USUÁRIOS AUTORIZADOS */
+  const usuarios = {
+    "Adnelson18306": "Adnelson",
+    "David18713": "David",
+    "Fabiano24847": "Fabiano",
+    "Gustavo23070": "Gustavo",
+    "Henrique15957": "Henrique",
+    "Leonardo23273": "Leonardo",
+    "Lyncoln26266": "Lyncoln",
+    "Moises371": "Moises",
+    "Rogerio15955": "Rogerio",
+    "Rafael130579": "Rafael",
+    "Willian29873": "Willian"
+  };
+
+  /* FORMULÁRIOS */
+  const formularios = {
+    "banheiro": "https://forms.office.com/r/66VrCJpBj2",
+    "bebedouro": "https://forms.office.com/r/ACp5VKFnGh",
+    "bombasdeagua": "https://forms.office.com/r/aR4BcXUsY3",
+    "bombasdevacuo": "https://forms.office.com/r/Cakn0maV3W",
+    "chavesseccionadoras": "https://forms.office.com/r/EXxPpkU91W",
+    "compressor": "https://forms.office.com/r/pYRTAr9CKy",
+    "arcondicionado": "https://forms.office.com/r/PiYApCsSpn",
+    "cortinadear": "https://forms.office.com/r/mLHpCQqLcj",
+    "exaustor": "https://forms.office.com/r/YsLv1eLVTy",
+    "geradores": "https://forms.office.com/r/3JcSde5Mk5",
+    "iluminacaodeemergencia": "https://forms.office.com/r/iip8ruND88",  
+    "pontodedescidaspda": "https://forms.office.com/r/dh5AGL2raC",
+    "portaodedoca": "https://forms.office.com/r/kFpbw1kUMY",
+    "portaodeeclusa": "https://forms.office.com/r/deXqhuM4eR",
+    "quadrosepaineseletricos": "https://forms.office.com/r/HJ0PK0XgNw",
+    "rampaniveladoradedoca": "https://forms.office.com/r/kRXSRWeCZi",
+    "reservatoriodear": "https://forms.office.com/r/MkPCGpL5J0",
+    "secadorsdear": "https://forms.office.com/r/g3QLQgQByz",
+    "transformadoresaoleo": "https://forms.office.com/r/bEZPDwBkDV",
+    "transformadoresaseco": "https://forms.office.com/r/quGcQsyQNY",
+    "trocadordecalor": "https://forms.office.com/FORM_CIVIL",
+    "ups": "https://forms.office.com/r/MP9zx5J7zc",
+    "tomadasdesobreporemc": "https://forms.office.com/r/QNfkpxdXpX"
+    
+  };
+
+  function validarSenha() {
+    const senha = document.getElementById("senha").value.trim();
+
+    if (usuarios[senha]) {
+      sessionStorage.setItem("usuario", usuarios[senha]);
+      document.getElementById("telaLogin").style.display = "none";
+      document.getElementById("telaMenu").style.display = "block";
+    } else {
+      document.getElementById("mensagemErro").style.display = "block";
+    }
+  }
+
+  function abrirFormulario(tipo) {
+    const usuario = sessionStorage.getItem("usuario");
+
+    if (!formularios[tipo]) {
+      alert("Formulário não configurado.");
+      return;
+    }
+
+    const url = formularios[tipo] + "?usuario=" + encodeURIComponent(usuario);
+    window.location.href = url;
+  }
+</script>
+
+</body>
+</html>
